@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 // @ts-ignore
 import rainbowGradient from 'rainbow-gradient'
+import { block, For } from 'million/react'
 
 type ColorProps = { colors: string[] }
 
@@ -26,6 +27,30 @@ function ReactColors({ colors }: ColorProps) {
     </div>
   )
 }
+
+const MillionColors = block(({ colors }: ColorProps) => {
+  const minWidth = `${100.0 / colors.length}vw`
+  return (
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'row',
+      }}
+    >
+      <For each={colors}>
+        {(color) => (
+          <div
+            style={{
+              minHeight: '100vh',
+              minWidth,
+              backgroundColor: color,
+            }}
+          ></div>
+        )}
+      </For>
+    </div>
+  )
+})
 
 const rainbowColors = rainbowGradient(360).map(
   ([r, g, b]: any) => `rgb(${r},${g},${b})`
@@ -56,7 +81,7 @@ const App = () => {
     }
   }, [])
 
-  return <ReactColors colors={colors} />
+  return <MillionColors colors={colors} />
 }
 
 export default App
